@@ -99,7 +99,7 @@ def plot_single_task_curve(
         )
 
         if fix_normed_axis is True and highest_upper_val < np.max(upper):
-          highest_upper_val = np.max(upper)
+            highest_upper_val = np.max(upper)
 
         if legend_map is not None:
             algorithm_name = legend_map[algorithm]
@@ -117,7 +117,7 @@ def plot_single_task_curve(
         ax.fill_between(
             x_axis_values, y1=lower, y2=upper, color=colors[algorithm], alpha=0.2
         )
-      
+
     if fix_normed_axis is True:
         ax.set_ylim(0, highest_upper_val)
 
