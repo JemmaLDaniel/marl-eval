@@ -401,6 +401,7 @@ def plot_single_task(
     xlabel: str = "Timesteps",
     legend_map: Optional[Dict[str, str]] = None,
     run_times: Optional[Dict[str, float]] = None,
+    title: Optional[str] = None,
 ) -> Figure:
     """Produces aggregated plot for a single task in an environment.
 
@@ -431,7 +432,7 @@ def plot_single_task(
     )
 
     if metric_name in metrics_to_normalize:
-        ylabel = "Normalized " + " ".join(metric_name.split("_"))
+        ylabel = "Normalised " + " ".join(metric_name.split("_"))
         fix_normed_axis = True
     else:
         ylabel = " ".join(metric_name.split("_")).capitalize()
@@ -464,6 +465,7 @@ def plot_single_task(
         run_times=run_times,
         marker="",
         fix_normed_axis=fix_normed_axis,
+        title=title,
     )
 
     return fig

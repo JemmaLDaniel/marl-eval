@@ -37,6 +37,7 @@ def plot_single_task_curve(
     legend_map: Optional[Dict] = None,
     run_times: Optional[Dict] = None,
     fix_normed_axis: bool = False,
+    title: Optional[str] = None,
     **kwargs: Any,
 ) -> Figure:
     """Plots an aggregate metric with CIs as a function of environment frames.
@@ -69,6 +70,8 @@ def plot_single_task_curve(
     """
     extra_info = aggregated_data.pop("extra")
 
+    algorithms = sorted(algorithms)
+
     if ax is None:
         _, ax = plt.subplots(figsize=figsize)
     if algorithms is None:
@@ -82,7 +85,7 @@ def plot_single_task_curve(
     marker = kwargs.pop("marker", "o")
     linewidth = kwargs.pop("linewidth", 2)
 
-    for algorithm in algorithms:
+    for i, algorithm in enumerate(algorithms):
         x_axis_len = len(aggregated_data[algorithm]["mean"])
 
         # Set x-axis values to match evaluation interval steps.
@@ -103,6 +106,10 @@ def plot_single_task_curve(
         else:
             algorithm_name = algorithm
 
+        # alpha = 0.25
+        # if i == 2 or i == 3:
+        #     alpha = 1
+
         ax.plot(
             x_axis_values,
             metric_values,
@@ -110,9 +117,12 @@ def plot_single_task_curve(
             marker=marker,
             linewidth=linewidth,
             label=algorithm_name,
+            # alpha=alpha,
         )
+        if title is not None:
+          ax.set_title(title, fontsize=18)
         ax.fill_between(
-            x_axis_values, y1=lower, y2=upper, color=colors[algorithm], alpha=0.2
+            x_axis_values, y1=lower, y2=upper, color=colors[algorithm], alpha=0.2#0.1
         )
 
     return _annotate_and_decorate_axis(
