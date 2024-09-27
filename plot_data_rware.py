@@ -2,9 +2,12 @@ import json
 import os
 
 import matplotlib.pyplot as plt
-
 from marl_eval.plotting_tools.plotting import (
+    aggregate_scores,
+    performance_profiles,
     plot_single_task,
+    probability_of_improvement,
+    sample_efficiency_curves,
 )
 from marl_eval.utils.data_processing_utils import (
     create_matrices_for_rliable,
@@ -14,7 +17,7 @@ from marl_eval.utils.data_processing_utils import (
 ENV_NAME = "RobotWarehouse"
 SAVE_PDF = True
 
-data_dir = "./concatenated_json_files_rware/metrics_new.json"
+data_dir = "./concatenated_json_files/metrics_new.json"
 png_plot_dir = "./plots/png/"
 pdf_plot_dir = "./plots/pdf/"
 
@@ -26,7 +29,7 @@ legend_map = {
 ##############################
 # Read in and process data
 ##############################
-METRICS_TO_NORMALIZE = []
+METRICS_TO_NORMALIZE = ["mean_episode_return"]
 
 with open(data_dir) as f:
     raw_data = json.load(f)
@@ -79,3 +82,17 @@ for task in tasks:
 
     # Close the figure object
     plt.close(fig.figure)
+
+fig, _, _ = sample_efficiency_curves(  # type: ignore
+    sample_efficiency_matrix,
+    metric_name="mean_episode_return",
+    metrics_to_normalize=METRICS_TO_NORMALIZE,
+    legend_map=legend_map,
+)
+fig.figure.savefig(
+    f"{png_plot_dir}return_sample_efficiency_curve.png", bbox_inches="tight"
+)
+if SAVE_PDF:
+    fig.figure.savefig(
+        f"{pdf_plot_dir}return_sample_efficiency_curve.pdf", bbox_inches="tight"
+    )
