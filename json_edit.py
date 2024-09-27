@@ -23,11 +23,13 @@ def process_seed(seed_data):
 
 def process_json(data):
 
-    scenarios = ["tiny-4ag", "small-4ag"]
+    # scenarios = ["tiny-4ag", "small-4ag"]
+    scenarios = ["15x15-4p-5f","15x15-3p-5f","2s-10x10-3p-3f"]
 
     for scenario in scenarios:
         # Retrieving the 'mamba_mat' dictionary
-        mamba_mat = data["RobotWarehouse"][scenario]["mamba_mat"]
+        # mamba_mat = data["RobotWarehouse"][scenario]["mamba_mat"]
+        mamba_mat = data["LevelBasedForaging"][scenario]["mat"]
         
         # Processing each seed
         for seed in list(mamba_mat.keys()):
