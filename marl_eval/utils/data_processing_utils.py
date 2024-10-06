@@ -139,8 +139,8 @@ def get_and_aggregate_data_single_task(
                 run_total.append(algorithm_data[run][step][metric_to_find])
 
             mean_and_ci[algorithm]["mean"].append(np.mean(run_total))
-            # Using central limit theorem to compute 95% CI
-            mean_and_ci[algorithm]["ci"].append(1.96 * np.std(run_total) / np.sqrt(10))
+            # Using central limit theorem to compute 95% CI using the t-distribution (df = n - 1)
+            mean_and_ci[algorithm]["ci"].append(2.26 * np.std(run_total) / np.sqrt(10))
 
     mean_and_ci["extra"] = processed_data["extra"]
 

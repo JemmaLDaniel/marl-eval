@@ -23,13 +23,19 @@ def process_seed(seed_data):
 
 def process_json(data):
 
-    # scenarios = ["tiny-4ag", "small-4ag"]
-    scenarios = ["15x15-4p-5f","15x15-3p-5f","2s-10x10-3p-3f"]
+    # scenarios = ["tiny-4ag", "small-4ag"]  # rware mamba_mat
+    # scenarios = ["tiny-4ag", "small-4ag", "tiny-2ag"]  # rware ff_mappo
+    scenarios = ["15x15-4p-3f","10x10-3p-3f","2s-8x8-2p-2f-coop", "8x8-2p-2f-coop"]  # lbf mamba_mat
+    # scenarios = ["27m_vs_30m", "2s3z", "3s5z", "3s5z_vs_3s6z", "6h_vs_8z", "3s_vs_5z", "smacv2_5_units", "10m_vs_11m"]  # smax mamba_mat
+    # scenarios = ["27m_vs_30m", "2s3z", "3s5z", "3s5z_vs_3s6z", "6h_vs_8z", "3s_vs_5z", "smacv2_5_units", "10m_vs_11m", "5m_vs_6m", "smacv2_10_units", "smacv2_20_units"]  # smax ff_mappo
 
     for scenario in scenarios:
         # Retrieving the 'mamba_mat' dictionary
         # mamba_mat = data["RobotWarehouse"][scenario]["mamba_mat"]
-        mamba_mat = data["LevelBasedForaging"][scenario]["mat"]
+        # mamba_mat = data["RobotWarehouse"][scenario]["ff_mappo"]
+        mamba_mat = data["LevelBasedForaging"][scenario]["mamba_mat"]
+        # mamba_mat = data["Smax"][scenario]["mamba_mat"]
+        # mamba_mat = data["Smax"][scenario]["ff_mappo"]
         
         # Processing each seed
         for seed in list(mamba_mat.keys()):

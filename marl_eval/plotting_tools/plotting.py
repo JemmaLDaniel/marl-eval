@@ -75,7 +75,7 @@ def performance_profiles(
         algorithms = list(data_dictionary.keys())
 
     if metric_name in metrics_to_normalize:
-        xlabel = "Normalized " + " ".join(metric_name.split("_"))
+        xlabel = "Normalised " + " ".join(metric_name.split("_"))
 
     else:
         xlabel = " ".join(metric_name.split("_")).capitalize()
@@ -131,7 +131,7 @@ def aggregate_scores(
 
     if metric_name in metrics_to_normalize:
         data_dictionary = dictionary[f"mean_norm_{metric_name}"]
-        xlabel = "Normalized " + " ".join(metric_name.split("_"))
+        xlabel = "Normalised " + " ".join(metric_name.split("_"))
     else:
         data_dictionary = dictionary[f"mean_{metric_name}"]
         xlabel = " ".join(metric_name.split("_")).capitalize()
@@ -337,7 +337,7 @@ def sample_efficiency_curves(
 
     if metric_name in metrics_to_normalize:
         data_dictionary = dictionary[f"mean_norm_{metric_name}"]
-        ylabel = "Normalized " + " ".join(metric_name.split("_"))
+        ylabel = "Normalised " + " ".join(metric_name.split("_"))
     else:
         data_dictionary = dictionary[f"mean_{metric_name}"]
         ylabel = " ".join(metric_name.split("_")).capitalize()
@@ -379,10 +379,10 @@ def sample_efficiency_curves(
         x_axis_values,
         iqm_scores,
         iqm_cis,
-        algorithms=algorithms,
+        algorithms=sorted(algorithms),
         xlabel=xlabel,
         ylabel=ylabel,
-        legend=algorithms,
+        legend=sorted(algorithms),
         figsize=(15, 8),
         color_palette=cc.glasbey_category10,
     )

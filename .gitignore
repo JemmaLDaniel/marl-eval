@@ -153,8 +153,9 @@ plots
 
 # JSON data
 downloaded_json_data
-
+concatenated_*
 
 pull_data.ipynb
 
 results_*
+plots_*

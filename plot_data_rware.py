@@ -17,13 +17,14 @@ from marl_eval.utils.data_processing_utils import (
 ENV_NAME = "RobotWarehouse"
 SAVE_PDF = True
 
-data_dir = "./concatenated_json_files/metrics_new.json"
+data_dir = "./concatenated_json_files_rware/metrics_new.json"
 png_plot_dir = "./plots/png/"
 pdf_plot_dir = "./plots/pdf/"
 
 legend_map = {
     "mat": "MAT",
-    "mamba_mat": "Mamba-MAT",
+    "ff_mappo": "FF MAPPO",
+    "mamba_mat": "MAM",
 }
 
 ##############################
@@ -50,6 +51,53 @@ if not os.path.exists(png_plot_dir):
     os.makedirs(png_plot_dir)
 if not os.path.exists(pdf_plot_dir):
     os.makedirs(pdf_plot_dir)
+
+##############################
+# Probability of improvement
+# Aggregate scores
+# Performance profiles
+##############################
+
+# These should be done with normalised data.
+
+# probability of improvement
+fig = probability_of_improvement(
+    environment_comparison_matrix,
+    metric_name="mean_episode_return",
+    metrics_to_normalize=METRICS_TO_NORMALIZE,
+    algorithms_to_compare=[
+        ["mamba_mat", "mat"],
+        ["mamba_mat", "ff_mappo"],
+        ["mat", "ff_mappo"],
+    ],
+    legend_map=legend_map,
+)
+fig.figure.savefig(f"{png_plot_dir}prob_of_improvement.png", bbox_inches="tight")
+if SAVE_PDF:
+    fig.figure.savefig(f"{pdf_plot_dir}prob_of_improvement.pdf", bbox_inches="tight")
+
+# aggregate scores
+fig, _, _ = aggregate_scores(  # type: ignore
+    environment_comparison_matrix,
+    metric_name="mean_episode_return",
+    metrics_to_normalize=METRICS_TO_NORMALIZE,
+    save_tabular_as_latex=True,
+    legend_map=legend_map,
+)
+fig.figure.savefig(f"{png_plot_dir}aggregate_scores.png", bbox_inches="tight")
+if SAVE_PDF:
+    fig.figure.savefig(f"{pdf_plot_dir}aggregate_scores.pdf", bbox_inches="tight")
+
+# performance profiles
+fig = performance_profiles(
+    environment_comparison_matrix,
+    metric_name="mean_episode_return",
+    metrics_to_normalize=METRICS_TO_NORMALIZE,
+    legend_map=legend_map,
+)
+fig.figure.savefig(f"{png_plot_dir}performance_profile.png", bbox_inches="tight")
+if SAVE_PDF:
+    fig.figure.savefig(f"{pdf_plot_dir}performance_profile.pdf", bbox_inches="tight")
 
 ##############################
 # Plot episode return data
@@ -83,6 +131,8 @@ for task in tasks:
     # Close the figure object
     plt.close(fig.figure)
 
+# Aggregate data over all environment tasks.
+
 fig, _, _ = sample_efficiency_curves(  # type: ignore
     sample_efficiency_matrix,
     metric_name="mean_episode_return",
@@ -90,9 +140,9 @@ fig, _, _ = sample_efficiency_curves(  # type: ignore
     legend_map=legend_map,
 )
 fig.figure.savefig(
-    f"{png_plot_dir}return_sample_efficiency_curve.png", bbox_inches="tight"
+    f"{png_plot_dir}env_agg_return.png", bbox_inches="tight"
 )
 if SAVE_PDF:
     fig.figure.savefig(
-        f"{pdf_plot_dir}return_sample_efficiency_curve.pdf", bbox_inches="tight"
+        f"{pdf_plot_dir}env_agg_return.pdf", bbox_inches="tight"
     )

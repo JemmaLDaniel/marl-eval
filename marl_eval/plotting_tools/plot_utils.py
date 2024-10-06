@@ -30,7 +30,7 @@ def plot_single_task_curve(
     color_palette: str = "colorblind",
     figsize: tuple = (7, 5),
     xlabel: str = "Number of Frames (in millions)",
-    ylabel: str = "Aggregate Human Normalized Score",
+    ylabel: str = "Aggregate Human Normalised Score",
     ax: Optional[Axes] = None,
     labelsize: str = "xx-large",
     ticklabelsize: str = "xx-large",
