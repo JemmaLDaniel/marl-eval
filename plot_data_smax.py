@@ -68,7 +68,6 @@ fig = probability_of_improvement(
     algorithms_to_compare=[
         ["mamba_mat", "mat"],
         ["mamba_mat", "ff_mappo"],
-        ["mat", "ff_mappo"],
     ],
     legend_map=legend_map,
 )

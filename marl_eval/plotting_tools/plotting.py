@@ -84,17 +84,30 @@ def performance_profiles(
         data_dictionary, np.linspace(0, 1, 100)
     )
 
+    palette = sns.color_palette(cc.glasbey_category10)
+    # manual_colour_order = [palette[1], palette[2], palette[0]]  # smax and rware
+    manual_colour_order = [palette[1], palette[0], palette[2]]  # lbf
+
     # Plot score distributions
     fig, ax = plt.subplots(ncols=1, figsize=(7, 5))
     plot_utils.plot_performance_profiles(
         score_distributions,
         np.linspace(0, 1, 100),
         performance_profile_cis=score_distributions_cis,
-        colors=dict(zip(algorithms, sns.color_palette(cc.glasbey_category10))),
+        colors=dict(zip(algorithms, manual_colour_order)),
         xlabel=f"{xlabel} " + r"$(\tau)$",
         ax=ax,
         legend=algorithms,
     )
+
+    # Get handles and labels from the axis
+    handles, labels = ax.get_legend_handles_labels()
+    # Specify the desired order
+    # order = [2, 0, 1]  # smax and rware
+    order = [1, 0, 2]  # lbf
+    # Create legend with the new order
+    ax.legend([handles[idx] for idx in order], [labels[idx] for idx in order])
+
     return fig
 
 
@@ -163,13 +176,17 @@ def aggregate_scores(
 
     metric_names = ["Median", "IQM", "Mean", "Optimality Gap"]
 
+    palette = sns.color_palette(cc.glasbey_category10)
+    # manual_colour_order = [palette[1], palette[2], palette[0]]  # smax and rware
+    manual_colour_order = [palette[1], palette[0], palette[2]]  # lbf
+
     fig, axes = plot_utils.plot_interval_estimates(
         aggregate_scores,
         aggregate_score_cis,
         metric_names=metric_names,
         algorithms=algorithms,
         xlabel=xlabel,
-        color_palette=cc.glasbey_category10,
+        color_palette=manual_colour_order,
         xlabel_y_coordinate=-0.5,
     )
 
