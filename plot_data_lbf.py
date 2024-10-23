@@ -24,7 +24,7 @@ pdf_plot_dir = "./plots/pdf/"
 
 legend_map = {
     "mat": "MAT",
-    "ff_mappo": "FF MAPPO",
+    "ff_mappo": "MAPPO",
     "mamba_mat": "MAM",
 }
 

@@ -23,7 +23,7 @@ png_plot_dir = "plots_all/png/"
 pdf_plot_dir = "plots_all/pdf/"
 
 legend_map = {
-    "ff_mappo": "FF MAPPO",
+    "ff_mappo": "MAPPO",
     "mat": "MAT",
     "mamba_mat": "MAM",
 }
