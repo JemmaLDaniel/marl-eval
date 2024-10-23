@@ -71,9 +71,9 @@ fig = probability_of_improvement(
     ],
     legend_map=legend_map,
 )
-fig.figure.savefig(f"{png_plot_dir}prob_of_improvement.png", bbox_inches="tight")
+fig.figure.savefig(f"{png_plot_dir}rware_prob_of_improvement.png", bbox_inches="tight")
 if SAVE_PDF:
-    fig.figure.savefig(f"{pdf_plot_dir}prob_of_improvement.pdf", bbox_inches="tight")
+    fig.figure.savefig(f"{pdf_plot_dir}rware_prob_of_improvement.pdf", bbox_inches="tight")
 
 # aggregate scores
 fig, _, _ = aggregate_scores(  # type: ignore
@@ -83,9 +83,9 @@ fig, _, _ = aggregate_scores(  # type: ignore
     save_tabular_as_latex=True,
     legend_map=legend_map,
 )
-fig.figure.savefig(f"{png_plot_dir}aggregate_scores.png", bbox_inches="tight")
+fig.figure.savefig(f"{png_plot_dir}rware_aggregate_scores.png", bbox_inches="tight")
 if SAVE_PDF:
-    fig.figure.savefig(f"{pdf_plot_dir}aggregate_scores.pdf", bbox_inches="tight")
+    fig.figure.savefig(f"{pdf_plot_dir}rware_aggregate_scores.pdf", bbox_inches="tight")
 
 # performance profiles
 fig = performance_profiles(
@@ -94,9 +94,9 @@ fig = performance_profiles(
     metrics_to_normalize=METRICS_TO_NORMALIZE,
     legend_map=legend_map,
 )
-fig.figure.savefig(f"{png_plot_dir}performance_profile.png", bbox_inches="tight")
+fig.figure.savefig(f"{png_plot_dir}rware_performance_profile.png", bbox_inches="tight")
 if SAVE_PDF:
-    fig.figure.savefig(f"{pdf_plot_dir}performance_profile.pdf", bbox_inches="tight")
+    fig.figure.savefig(f"{pdf_plot_dir}rware_performance_profile.pdf", bbox_inches="tight")
 
 ##############################
 # Plot episode return data
@@ -139,9 +139,9 @@ fig, _, _ = sample_efficiency_curves(  # type: ignore
     legend_map=legend_map,
 )
 fig.figure.savefig(
-    f"{png_plot_dir}env_agg_return.png", bbox_inches="tight"
+    f"{png_plot_dir}rware_env_agg_return.png", bbox_inches="tight"
 )
 if SAVE_PDF:
     fig.figure.savefig(
-        f"{pdf_plot_dir}env_agg_return.pdf", bbox_inches="tight"
+        f"{pdf_plot_dir}rware_env_agg_return.pdf", bbox_inches="tight"
     )
