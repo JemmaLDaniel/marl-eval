@@ -80,7 +80,7 @@ def plot_single_task_curve(
         color_palette = sns.color_palette(color_palette, n_colors=len(algorithms))
         colors = dict(zip(algorithms, color_palette))
     if fix_normed_axis is True:
-        ax.set_ylim(0, 1)
+        ax.set_ylim(0, 1.02)
 
     marker = kwargs.pop("marker", "o")
     linewidth = kwargs.pop("linewidth", 2)
@@ -96,10 +96,16 @@ def plot_single_task_curve(
 
         metric_values = np.array(aggregated_data[algorithm]["mean"])
         confidence_interval = np.array(aggregated_data[algorithm]["ci"])
-        lower, upper = (
-            metric_values - confidence_interval,
-            metric_values + confidence_interval,
-        )
+        if fix_normed_axis is True:
+          lower, upper = (   # note: this is a PATCH for capping CIs when standardised.
+              metric_values - confidence_interval,
+              np.minimum(metric_values + confidence_interval, 1),
+          )
+        else:
+           lower, upper = (
+              metric_values - confidence_interval,
+              metric_values + confidence_interval,
+          ) 
 
         if legend_map is not None:
             algorithm_name = legend_map[algorithm]
