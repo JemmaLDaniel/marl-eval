@@ -154,10 +154,10 @@ plots
 # JSON data
 downloaded_json_data
 concatenated_*
+metrics*
 
-pull_data.ipynb
-
+# Plots
 results_*
 plots_*
 
-metrics*
+pull_data.ipynb
