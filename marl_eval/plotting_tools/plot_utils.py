@@ -70,7 +70,7 @@ def plot_single_task_curve(
     """
     extra_info = aggregated_data.pop("extra")
 
-    algorithms = sorted(algorithms)
+    # algorithms = sorted(algorithms)
 
     if ax is None:
         _, ax = plt.subplots(figsize=figsize)

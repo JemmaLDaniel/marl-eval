@@ -85,8 +85,8 @@ def performance_profiles(
     )
 
     palette = sns.color_palette(cc.glasbey_category10)
-    # manual_colour_order = [palette[1], palette[2], palette[0]]  # smax and rware
-    manual_colour_order = [palette[1], palette[0], palette[2]]  # lbf
+    manual_colour_order = [palette[0], palette[2], palette[1]]  # smax and rware
+    # manual_colour_order = [palette[0], palette[1], palette[2]]  # lbf
 
     # Plot score distributions
     fig, ax = plt.subplots(ncols=1, figsize=(7, 5))
@@ -103,8 +103,8 @@ def performance_profiles(
     # Get handles and labels from the axis
     handles, labels = ax.get_legend_handles_labels()
     # Specify the desired order
-    # order = [2, 0, 1]  # smax and rware
-    order = [1, 0, 2]  # lbf
+    order = [0, 2, 1]  # smax and rware
+    # order = [0, 1, 2]  # lbf
     # Create legend with the new order
     ax.legend([handles[idx] for idx in order], [labels[idx] for idx in order])
 
@@ -472,10 +472,10 @@ def plot_single_task(
 
     fig = plot_single_task_curve(
         task_mean_ci_data,
-        algorithms=algorithms,
+        algorithms=sorted(algorithms),
         xlabel=xlabel,
         ylabel=ylabel,
-        legend=algorithms,
+        legend=sorted(algorithms),
         figsize=(15, 8),
         color_palette=cc.glasbey_category10,
         legend_map=legend_map,
