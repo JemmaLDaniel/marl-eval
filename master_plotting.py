@@ -19,13 +19,13 @@ ENV_NAME = "AllEnvs"
 SAVE_PDF = True
 
 data_dir = "merged_json_files/metrics_filtered_master_norm.json"
-png_plot_dir = "plots_all/png/"
-pdf_plot_dir = "plots_all/pdf/"
+png_plot_dir = "plots/png/"
+pdf_plot_dir = "plots/pdf/"
 
 legend_map = {
-    "ff_mappo": "MAPPO",
+    "mappo": "MAPPO",
     "mat": "MAT",
-    "mamba_mat": "MAM",
+    "mam": "MAM",
 }
 
 ##############################
@@ -40,7 +40,7 @@ processed_data = data_process_pipeline(
     raw_data=raw_data, metrics_to_normalize=METRICS_TO_NORMALIZE
 )
 
-environment_comparison_matrix, sample_effeciency_matrix = create_matrices_for_rliable(
+environment_comparison_matrix, sample_efficiency_matrix = create_matrices_for_rliable(
     data_dictionary=processed_data,
     environment_name=ENV_NAME,
     metrics_to_normalize=METRICS_TO_NORMALIZE,
@@ -52,113 +52,17 @@ if not os.path.exists(png_plot_dir):
 if not os.path.exists(pdf_plot_dir):
     os.makedirs(pdf_plot_dir)
 
-
-##############################
-# Probability of improvement
-# Aggregate scores
-# Performance profiles
-##############################
-
-# These should be done with normalized data
-
-# probability of improvement
-fig = probability_of_improvement(
-    environment_comparison_matrix,
-    metric_name="mean_episode_return",
-    metrics_to_normalize=METRICS_TO_NORMALIZE,
-    algorithms_to_compare=[
-        ["mamba_mat", "mat"],
-        ["mamba_mat", "ff_mappo"],
-    ],
-    legend_map=legend_map,
-)
-fig.figure.savefig(f"{png_plot_dir}prob_of_improvement.png", bbox_inches="tight")
-if SAVE_PDF:
-    fig.figure.savefig(f"{pdf_plot_dir}prob_of_improvement.pdf", bbox_inches="tight")
-
-# aggregate scores
-fig, _, _ = aggregate_scores(  # type: ignore
-    environment_comparison_matrix,
-    metric_name="mean_episode_return",
-    metrics_to_normalize=METRICS_TO_NORMALIZE,
-    save_tabular_as_latex=True,
-    legend_map=legend_map,
-)
-fig.figure.savefig(f"{png_plot_dir}aggregate_scores.png", bbox_inches="tight")
-if SAVE_PDF:
-    fig.figure.savefig(f"{pdf_plot_dir}aggregate_scores.pdf", bbox_inches="tight")
-
-# performance profiles
-fig = performance_profiles(
-    # environment_comparison_matrix,
-    sample_effeciency_matrix,
+# Aggregate data over all environment tasks.
+fig, _, _ = sample_efficiency_curves(  # type: ignore
+    sample_efficiency_matrix,
     metric_name="mean_episode_return",
     metrics_to_normalize=METRICS_TO_NORMALIZE,
     legend_map=legend_map,
 )
-fig.figure.savefig(f"{png_plot_dir}performance_profile.png", bbox_inches="tight")
+fig.figure.savefig(
+    f"{png_plot_dir}all_envs_sample_efficiency_curve.png", bbox_inches="tight"
+)
 if SAVE_PDF:
-    fig.figure.savefig(f"{pdf_plot_dir}performance_profile.pdf", bbox_inches="tight")
-
-
-##############################
-# Plot episode return data
-##############################
-
-# This should not be done with normalized data
-
-METRICS_TO_NORMALIZE = []
-
-with open(data_dir) as f:
-    raw_data = json.load(f)
-
-processed_data = data_process_pipeline(
-    raw_data=raw_data, metrics_to_normalize=METRICS_TO_NORMALIZE
-)
-
-environment_comparison_matrix, sample_effeciency_matrix = create_matrices_for_rliable(
-    data_dictionary=processed_data,
-    environment_name=ENV_NAME,
-    metrics_to_normalize=METRICS_TO_NORMALIZE,
-)
-
-# Get all tasks
-tasks = list(processed_data[ENV_NAME.lower()].keys())
-
-# Aggregate data over a single tasks
-for task in tasks:
-    fig = plot_single_task(
-        processed_data=processed_data,
-        environment_name=ENV_NAME,
-        task_name=task,
-        metric_name="mean_episode_return",
-        metrics_to_normalize=METRICS_TO_NORMALIZE,
-        legend_map=legend_map,
-    )
-
     fig.figure.savefig(
-        f"{png_plot_dir}rware_{task}_agg_return.png", bbox_inches="tight"
+        f"{pdf_plot_dir}all_envs_sample_efficiency_curve.pdf", bbox_inches="tight"
     )
-    if SAVE_PDF:
-        fig.figure.savefig(
-            f"{pdf_plot_dir}rware_{task}_agg_return.pdf", bbox_inches="tight"
-        )
-
-    # Close the figure object
-    plt.close(fig.figure)
-
-if __name__ == "__main__":
-    # Aggregate data over all environment tasks.
-    fig, _, _ = sample_efficiency_curves(  # type: ignore
-        sample_effeciency_matrix,
-        metric_name="mean_episode_return",
-        metrics_to_normalize=METRICS_TO_NORMALIZE,
-        legend_map=legend_map,
-    )
-    fig.figure.savefig(
-        f"{png_plot_dir}return_sample_efficiency_curve.png", bbox_inches="tight"
-    )
-    if SAVE_PDF:
-        fig.figure.savefig(
-            f"{pdf_plot_dir}all_envs_sample_efficiency_curve.pdf", bbox_inches="tight"
-        )

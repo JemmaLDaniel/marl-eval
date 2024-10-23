@@ -23,8 +23,8 @@ pdf_plot_dir = "./plots/pdf/"
 
 legend_map = {
     "mat": "MAT",
-    "ff_mappo": "MAPPO",
-    "mamba_mat": "MAM",
+    "mappo": "MAPPO",
+    "mam": "MAM",
 }
 
 ##############################
@@ -66,8 +66,8 @@ fig = probability_of_improvement(
     metric_name="mean_episode_return",
     metrics_to_normalize=METRICS_TO_NORMALIZE,
     algorithms_to_compare=[
-        ["mamba_mat", "mat"],
-        ["mamba_mat", "ff_mappo"],
+        ["mam", "mat"],
+        ["mam", "mappo"],
     ],
     legend_map=legend_map,
 )
